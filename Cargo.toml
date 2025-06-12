@@ -7,3 +7,4 @@ description = "A VST3-based suite of DSP effects"
 authors = ["Callum Jones"]
 
 [dependencies]
+nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", features = ["assert_process_allocs"] }
