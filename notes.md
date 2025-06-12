@@ -28,6 +28,10 @@ These are the steps I followed:
       3. An nih_plug plugin consists of an implementation of the `Plugin` trait,
       and then an `nih_export` macro call to actually expose that plugin
       implementation.
+      4. For now, I'm going to leave everything in the same module. That's because
+      for the moment, we're only dealing with one plugin - there is no need to
+      overengineer this, because assuming that I make sure the code is relatively
+      decoupled.
    2. Consider how we should make the GUI for the plugins - can we just let the
       DAW take care of that? Or, do we need to use something like `iced`/`egui`
 
