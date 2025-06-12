@@ -1,5 +1,11 @@
 # Notes
 
+## General comments as I go
+
+Maybe could be good to contribute to documentation as I go. This could be either
+through writing guides, or just improving a lot of the default docs. Would make
+a lot of sense, and could be an easy part of the thesis development too.
+
 ## Setting up this repository
 
 NIH-plug provides a template that can quickly get a repo set up for dev
@@ -30,8 +36,15 @@ These are the steps I followed:
       implementation.
       4. For now, I'm going to leave everything in the same module. That's because
       for the moment, we're only dealing with one plugin - there is no need to
-      overengineer this, because assuming that I make sure the code is relatively
-      decoupled.
+      overengineer this, because assuming that I will make sure the code is relatively
+      decoupled. That way, as it grows, I can just reorganize in whichever way
+      makes the most sense.
    2. Consider how we should make the GUI for the plugins - can we just let the
       DAW take care of that? Or, do we need to use something like `iced`/`egui`
-
+6. How do we actually link the VST3 binaries to the workspace? And, how is the
+   final binary formatted? Is it a VST3 file? How do we get to that?
+   1. Let's start by just trying to compile the examples in the vst3-sys repo.
+      1. So, crossreferencing the built example, and the Airwindows Consolidated
+      VST3 code, it turns out a VST3 "file" is actually a folder. This contains the
+      `.so` file, and a JSON that contains information about the plugin.
+   2. TODO
