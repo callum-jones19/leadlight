@@ -46,5 +46,9 @@ These are the steps I followed:
    1. Let's start by just trying to compile the examples in the vst3-sys repo.
       1. So, crossreferencing the built example, and the Airwindows Consolidated
       VST3 code, it turns out a VST3 "file" is actually a folder. This contains the
-      `.so` file, and a JSON that contains information about the plugin.
+      `.so` file, and a JSON that contains information about the plugin. Note,
+      .so is just the Linux version (Windows would be `.dll`, etc). This just
+      is a **dynamic system library**. So, a VST3 file is essentially a bundled
+      dynamic system library, along with a metadata information file. So, for
+      something to be a VST3 file...
    2. TODO
