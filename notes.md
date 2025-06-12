@@ -14,3 +14,20 @@ These are the steps I followed:
    to the `Cargo.toml`. It is not on Cargo (Rust's package manager), so we add
   the dependency directly from Github.
 3. Set up the project settings in `Cargo.toml`.
+4. Add licence notices for Airwindows and NIH Plug
+5. Decide on workspace organisation
+   1. Workspaces vs modules.
+      1. I think we want to do workspaces - at least for the plugins. That will
+      let us compile every plugin individually, if we want to do that. E.G., we
+      want to distribute specific plugins, without bundling them all into a single
+      solution.
+      2. Either way, we essentially will have a lib module for the plugin,
+      which is then exposed in the built lib.rs with a `nih_export_vst3!()`.
+      We can also use `nih_export_standalone!()` to create a version of the
+      plugin that can be run as a standalone GUI.
+      3. An nih_plug plugin consists of an implementation of the `Plugin` trait,
+      and then an `nih_export` macro call to actually expose that plugin
+      implementation.
+   2. Consider how we should make the GUI for the plugins - can we just let the
+      DAW take care of that? Or, do we need to use something like `iced`/`egui`
+
