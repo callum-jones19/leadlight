@@ -2,5 +2,8 @@
 name = "thesis_vst"
 version = "0.1.0"
 edition = "2024"
+license = "GPLv3"
+description = "A VST3-based suite of DSP effects"
+authors = ["Callum Jones"]
 
 [dependencies]
