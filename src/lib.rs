@@ -65,3 +65,18 @@ impl Vst3Plugin for EmptyNoise {
 }
 
 nih_export_vst3!(EmptyNoise);
+
+/*
+Testing modules
+*/
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn basic_test() {
+        let result = 4;
+        assert_eq!(result, 4);
+    }
+}
