@@ -45,10 +45,17 @@ These are the steps I followed:
    final binary formatted? Is it a VST3 file? How do we get to that?
    1. Let's start by just trying to compile the examples in the vst3-sys repo.
       1. So, crossreferencing the built example, and the Airwindows Consolidated
-      VST3 code, it turns out a VST3 "file" is actually a folder. This contains the
-      `.so` file, and a JSON that contains information about the plugin. Note,
-      .so is just the Linux version (Windows would be `.dll`, etc). This just
-      is a **dynamic system library**. So, a VST3 file is essentially a bundled
-      dynamic system library, along with a metadata information file. So, for
-      something to be a VST3 file...
-   2. TODO
+         VST3 code, it turns out a VST3 "file" is actually a folder. This contains the
+         `.so` file, and a JSON that contains information about the plugin. Note,
+         .so is just the Linux version (Windows would be `.dll`, etc). This just
+         is a **dynamic system library**. So, a VST3 file is essentially a bundled
+         dynamic system library, along with a metadata information file. So, for
+         something to be a VST3 file, we need to compile it to a DSL, and then move
+         that file into a correct VST3 folder structure.
+   2. The other question is then, do the actual VST3 binaries need to be linked into the
+      compiled .so file?
+         1. My current understanding is no, and that this is because of the fact that the
+            vst3-sys library uses the COM API to actually interact with the underlying
+            VST interface. This might mean that it doesn't actually need to bundle the native VST3
+            libraries with it.
+

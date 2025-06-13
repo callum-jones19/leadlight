@@ -6,6 +6,9 @@ license = "GPLv3"
 description = "A VST3-based suite of DSP effects"
 authors = ["Callum Jones"]
 
+[lib]
+crate-type = ["cdylib"]
+
 [dependencies]
 # Enabling this feature will cause the plugin to terminate when allocations
 # occur in the processing function during debug builds. Keep in mind that panics
