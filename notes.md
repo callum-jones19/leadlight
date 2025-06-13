@@ -58,4 +58,25 @@ These are the steps I followed:
             vst3-sys library uses the COM API to actually interact with the underlying
             VST interface. This might mean that it doesn't actually need to bundle the native VST3
             libraries with it.
-
+7. We start by making a boilerplate plugin implementation. This is
+   not actually going to contain anything useful processing-wise, but
+   it lets me get a hands on understanding of what each plugin that
+   I write needs to look like, and what functions it exposes.
+      1. In this case, we create a Plugin struct, and a Plugin Parameters
+      struct. We then impl the nih-plugin `Pugin` trait for the Plugin.
+      To satisfy this, we need to implement a `process(...)` and a
+      `params(...)` function for the plugin. `process` deals with the actual
+      processing algorithm. `params` returns an atomically referenced copy of
+      the plugin's parameters. Interestingly, this `Arc` means that we can be
+      sure that the plugin won't suffer from race conditions in multi-threaded
+      applications.
+8. With this in mind, we want to now make a testing suite, that takes the
+   processing algorithm, and tests that the output is what we expect it to be.
+      1. We also want to test performance of the library (see the ThesisA report
+         ). To do this, we will use a performance benchnarking library, such as
+         `criterion-rs`.
+      2. I can't apply a test directly to the implemented `process(...)` function.
+         This is because it needs a reference to the processing context, which
+         the testing suite won't have access to (as far as I'm aware). So,
+         to get around this, we will apply the testing function to a processing
+         algorithm which takes in just the buffers.

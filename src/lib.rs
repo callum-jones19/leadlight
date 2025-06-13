@@ -15,9 +15,7 @@ struct EmptyNoise {
 ///
 /// We also want to return this struct in the params function of the Plugin trait.
 #[derive(Params, Default)]
-struct EmptyNoiseParams {
-    tmp: f32,
-}
+struct EmptyNoiseParams {}
 
 impl Plugin for EmptyNoise {
     const NAME: &'static str = "EmptyNoise";
@@ -72,11 +70,18 @@ Testing modules
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::any::Any;
+
+    use nih_plug::{
+        buffer::Buffer,
+        plugin::Plugin,
+        prelude::{AudioIOLayout, AuxiliaryBuffers, BufferConfig, InitContext},
+    };
+
+    use crate::EmptyNoise;
 
     #[test]
     fn basic_test() {
-        let result = 4;
-        assert_eq!(result, 4);
+        let empty_noise_plug = EmptyNoise::default();
     }
 }
