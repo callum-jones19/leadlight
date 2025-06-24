@@ -11,12 +11,11 @@ pub struct EmptyNoise {
 
 impl EmptyNoise {
     fn process_algorithm(&self, buffer: &mut Buffer) {
-        nih_log!("Help");
-
-        nih_log!("Number of channels: {}", buffer.channels());
-
-        nih_log!("{:?}", buffer.as_slice());
-
+        for samples in buffer.iter_samples() {
+            for sample in samples {
+                *sample = 0.0;
+            }
+        }
     }
 }
 
