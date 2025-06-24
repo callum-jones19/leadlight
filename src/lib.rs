@@ -5,8 +5,19 @@ use nih_plug::prelude::*;
 /// A plugin that takes any input, and then always provides an empty output.
 /// This is effectively like a mute
 #[derive(Default)]
-struct EmptyNoise {
+pub struct EmptyNoise {
     params: Arc<EmptyNoiseParams>,
+}
+
+impl EmptyNoise {
+    fn process_algorithm(&self, buffer: &mut Buffer) {
+        nih_log!("Help");
+
+        nih_log!("Number of channels: {}", buffer.channels());
+
+        nih_log!("{:?}", buffer.as_slice());
+
+    }
 }
 
 /// All the paramters for the EmptyNoise plugin are held in a single struct.
@@ -50,10 +61,11 @@ impl Plugin for EmptyNoise {
     fn process(
         &mut self,
         buffer: &mut Buffer,
-        aux: &mut AuxiliaryBuffers,
-        context: &mut impl ProcessContext<Self>,
+        _aux: &mut AuxiliaryBuffers,
+        _context: &mut impl ProcessContext<Self>,
     ) -> ProcessStatus {
-        todo!()
+        self.process_algorithm(buffer);
+        ProcessStatus::Error("im gonna kms")
     }
 }
 
@@ -70,12 +82,10 @@ Testing modules
 
 #[cfg(test)]
 mod tests {
-    use std::any::Any;
+    use std::sync::mpsc::channel;
 
     use nih_plug::{
         buffer::Buffer,
-        plugin::Plugin,
-        prelude::{AudioIOLayout, AuxiliaryBuffers, BufferConfig, InitContext},
     };
 
     use crate::EmptyNoise;
@@ -83,5 +93,8 @@ mod tests {
     #[test]
     fn basic_test() {
         let empty_noise_plug = EmptyNoise::default();
+        let mut tmp_buf = Buffer::default();
+
+        empty_noise_plug.process_algorithm(&mut tmp_buf);
     }
 }

@@ -7,11 +7,11 @@ description = "A VST3-based suite of DSP effects"
 authors = ["Callum Jones"]
 
 [lib]
-crate-type = ["cdylib"]
+crate-type = ["cdylib", "lib"]
 
 [dependencies]
 # Enabling this feature will cause the plugin to terminate when allocations
 # occur in the processing function during debug builds. Keep in mind that panics
 # may also allocate if they use string formatting, so temporarily disabling this
 # feature may be necessary when debugging panics in DSP code.
-nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", features = ["assert_process_allocs"] }
+nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", features = ["assert_process_allocs", "standalone"] }
