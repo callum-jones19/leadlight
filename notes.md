@@ -88,3 +88,8 @@ These are the steps I followed:
    2. The test then asserts that all the samples in the buffer have this value.
    3. We then run the processing algorithm on this buffer, and run a second assertion
       that all the values have now been set to 0.0.
+10. At this stage, the compiled .so/.dll/etc. file actually works. However, in
+    order for it to work, it needs to be renamed into a .vst3 file, and then DAWs
+    will recognise it and allow you to import it. This seems clunky though - we
+    want to figure out a proper way to automatically compile it into a proper
+    VST3 file.
