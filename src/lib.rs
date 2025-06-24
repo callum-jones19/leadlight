@@ -64,7 +64,7 @@ impl Plugin for EmptyNoise {
         _context: &mut impl ProcessContext<Self>,
     ) -> ProcessStatus {
         self.process_algorithm(buffer);
-        ProcessStatus::Error("im gonna kms")
+        ProcessStatus::Normal
     }
 }
 

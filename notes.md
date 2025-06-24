@@ -80,3 +80,11 @@ These are the steps I followed:
          the testing suite won't have access to (as far as I'm aware). So,
          to get around this, we will apply the testing function to a processing
          algorithm which takes in just the buffers.
+9. In the tests, we make a new default Buffer, and then set the slices to a set
+   of voilerplate values. To do this, we need to use an unsafe section of code,
+   however I pulled this directly from the built-in nih-plug tests, so I'm relatively
+   confident that they will not pose an issue (though I want to check this later).
+   1. The test just creates a two-channel buffer filled with samples of value 5.0
+   2. The test then asserts that all the samples in the buffer have this value.
+   3. We then run the processing algorithm on this buffer, and run a second assertion
+      that all the values have now been set to 0.0.
