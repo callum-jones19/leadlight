@@ -82,8 +82,6 @@ Testing modules
 
 #[cfg(test)]
 mod tests {
-    use std::sync::mpsc::channel;
-
     use nih_plug::{
         buffer::Buffer,
     };
@@ -92,9 +90,38 @@ mod tests {
 
     #[test]
     fn basic_test() {
-        let empty_noise_plug = EmptyNoise::default();
-        let mut tmp_buf = Buffer::default();
+        let sample_init_val = 5.0;
 
-        empty_noise_plug.process_algorithm(&mut tmp_buf);
+        let empty_noise_plug = EmptyNoise::default();
+
+        // This section of unsafe code is directly pulled from nih-plug's internal
+        // buffer tests. For now, I will assume this is therefore a verified
+        // implementation.
+        let mut real_buffers = vec![vec![5.0; 512]; 2];
+        let mut buffer = Buffer::default();
+        unsafe {
+            buffer.set_slices(512, |output_slices| {
+                let (first_channel, other_channels) = real_buffers.split_at_mut(1);
+                *output_slices = vec![&mut first_channel[0], &mut other_channels[0]];
+            })
+        };
+
+        // Verify that the buffer is what we expect it to be
+        for samples in buffer.iter_samples() {
+            for sample in samples {
+                assert_eq!(*sample, sample_init_val);
+            }
+        }
+
+        // Now pass the buffer through the processing algorithm, which should
+        // assign every sample value to be 0.
+        empty_noise_plug.process_algorithm(&mut buffer);
+
+        // Verify the updated values
+        for samples in buffer.iter_samples() {
+            for sample in samples {
+                assert_eq!(*sample, 0.0);
+            }
+        }
     }
 }
