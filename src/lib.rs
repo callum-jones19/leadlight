@@ -5,11 +5,11 @@ use nih_plug::prelude::*;
 /// A plugin that takes any input, and then always provides an empty output.
 /// This is effectively like a mute
 #[derive(Default)]
-pub struct EmptyNoise {
-    params: Arc<EmptyNoiseParams>,
+pub struct Mute {
+    params: Arc<MuteParams>,
 }
 
-impl EmptyNoise {
+impl Mute {
     fn process_algorithm(&self, buffer: &mut Buffer) {
         for samples in buffer.iter_samples() {
             for sample in samples {
@@ -25,9 +25,9 @@ impl EmptyNoise {
 ///
 /// We also want to return this struct in the params function of the Plugin trait.
 #[derive(Params, Default)]
-struct EmptyNoiseParams {}
+struct MuteParams {}
 
-impl Plugin for EmptyNoise {
+impl Plugin for Mute {
     const NAME: &'static str = "EmptyNoise";
     const VENDOR: &'static str = "Callum Jones";
     const URL: &'static str = "TODO";
@@ -68,12 +68,12 @@ impl Plugin for EmptyNoise {
     }
 }
 
-impl Vst3Plugin for EmptyNoise {
+impl Vst3Plugin for Mute {
     const VST3_CLASS_ID: [u8; 16] = *b"EmptyNoisePlugin";
     const VST3_SUBCATEGORIES: &'static [Vst3SubCategory] = &[Vst3SubCategory::Tools];
 }
 
-nih_export_vst3!(EmptyNoise);
+nih_export_vst3!(Mute);
 
 /*
 Testing modules
@@ -85,13 +85,13 @@ mod tests {
         buffer::Buffer,
     };
 
-    use crate::EmptyNoise;
+    use crate::Mute;
 
     #[test]
     fn basic_test() {
         let sample_init_val = 5.0;
 
-        let empty_noise_plug = EmptyNoise::default();
+        let empty_noise_plug = Mute::default();
 
         // This section of unsafe code is directly pulled from nih-plug's internal
         // buffer tests. For now, I will assume this is therefore a verified
