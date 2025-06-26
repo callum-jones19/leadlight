@@ -2,6 +2,8 @@ use std::sync::Arc;
 
 use nih_plug::prelude::*;
 
+mod utils;
+
 /// A plugin that takes any input, and then always provides an empty output.
 /// This is effectively like a mute
 #[derive(Default)]
@@ -81,11 +83,10 @@ Testing modules
 
 #[cfg(test)]
 mod tests {
-    use nih_plug::{
-        buffer::Buffer,
-    };
+    use nih_plug::buffer::Buffer;
 
-    use crate::Mute;
+    use crate::{utils::test_utils::create_test_buffer, Mute};
+
 
     #[test]
     fn basic_test() {
@@ -93,17 +94,8 @@ mod tests {
 
         let empty_noise_plug = Mute::default();
 
-        // This section of unsafe code is directly pulled from nih-plug's internal
-        // buffer tests. For now, I will assume this is therefore a verified
-        // implementation.
-        let mut real_buffers = vec![vec![5.0; 512]; 2];
-        let mut buffer = Buffer::default();
-        unsafe {
-            buffer.set_slices(512, |output_slices| {
-                let (first_channel, other_channels) = real_buffers.split_at_mut(1);
-                *output_slices = vec![&mut first_channel[0], &mut other_channels[0]];
-            })
-        };
+        let mut real_buffers = vec![vec![sample_init_val; 512]; 2];
+        let mut buffer = create_test_buffer(&mut real_buffers);
 
         // Verify that the buffer is what we expect it to be
         for samples in buffer.iter_samples() {
