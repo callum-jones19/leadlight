@@ -1,7 +1,5 @@
 #[cfg(test)]
 pub mod test_utils {
-    use core::panic;
-
     use nih_plug::buffer::Buffer;
 
     /// Create a buffer to be used in tests. It should have two channels, and

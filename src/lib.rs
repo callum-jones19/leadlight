@@ -83,8 +83,6 @@ Testing modules
 
 #[cfg(test)]
 mod tests {
-    use nih_plug::buffer::Buffer;
-
     use crate::{Mute, utils::test_utils::create_test_buffer};
 
     #[test]
