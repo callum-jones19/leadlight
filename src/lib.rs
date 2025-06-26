@@ -95,7 +95,7 @@ mod tests {
         let empty_noise_plug = Mute::default();
 
         let mut real_buffers = vec![vec![sample_init_val; 512]; 2];
-        let mut buffer = create_test_buffer(&mut real_buffers);
+        let mut buffer = create_test_buffer(&mut real_buffers).unwrap();
 
         // Verify that the buffer is what we expect it to be
         for samples in buffer.iter_samples() {

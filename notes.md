@@ -16,7 +16,7 @@ These are the steps I followed:
 
 1. Apply COPYING to the repository, which gives it the GPLv3 licensing.
 2. Add nih_plug as a dependency of the project. We do this by adding
-   nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", features = ["assert_process_allocs"] }
+   `nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", features = ["assert_process_allocs"] }`
    to the `Cargo.toml`. It is not on Cargo (Rust's package manager), so we add
   the dependency directly from Github.
 3. Set up the project settings in `Cargo.toml`.
@@ -94,10 +94,16 @@ These are the steps I followed:
       of `unsafe` to a single line of code in the repository. Even though it's
       only used in the testing modules, I definitely don't want it to exist
       in every test.
+   5. This is now done. It expects you to pass in a reference to a `Vec` representation
+      of the buffer, which is then fed into the unsafe code that creates a Buffer
+      and feeds in the slices to it. That way, we don't have to deal with lifetimes,
+      etc., and we also get more flexibility between tests in what length of buffer
+      we pass in.
 10. At this stage, the compiled .so/.dll/etc. file actually works. However, in
     order for it to work, it needs to be renamed into a .vst3 file, and then DAWs
     will recognise it and allow you to import it. This seems clunky though - we
     want to figure out a proper way to automatically compile it into a proper
     VST3 file.
     1. See [this](https://steinbergmedia.github.io/vst3_dev_portal/pages/Technical+Documentation/Locations+Format/Plugin+Format.html?highlight=.vst3%20file#for-the-windows-platform)
-    link for an explanation of how we can actually bundle this into a VST3 file
+       link for an explanation of how we can actually bundle this into a VST3 file.
+    2. I want to briefly pause this though to focus a bit more on testing.
