@@ -86,10 +86,18 @@ These are the steps I followed:
    confident that they will not pose an issue (though I want to check this later).
    1. The test just creates a two-channel buffer filled with samples of value 5.0
    2. The test then asserts that all the samples in the buffer have this value.
-   3. We then run the processing algorithm on this buffer, and run a second assertion
-      that all the values have now been set to 0.0.
+   3. We then run the processing algorithm on this buffer, and run a second
+      assertion all the values have now been set to 0.0.
+   4. I also want to really reconsider how that unsafe is used. My current idea
+      is to wrap it in a helper function called something like
+      `createTestBuffer() -> Buffer`. That way I can limit the presence
+      of `unsafe` to a single line of code in the repository. Even though it's
+      only used in the testing modules, I definitely don't want it to exist
+      in every test.
 10. At this stage, the compiled .so/.dll/etc. file actually works. However, in
     order for it to work, it needs to be renamed into a .vst3 file, and then DAWs
     will recognise it and allow you to import it. This seems clunky though - we
     want to figure out a proper way to automatically compile it into a proper
     VST3 file.
+    1. See [this](https://steinbergmedia.github.io/vst3_dev_portal/pages/Technical+Documentation/Locations+Format/Plugin+Format.html?highlight=.vst3%20file#for-the-windows-platform)
+    link for an explanation of how we can actually bundle this into a VST3 file
