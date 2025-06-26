@@ -85,8 +85,7 @@ Testing modules
 mod tests {
     use nih_plug::buffer::Buffer;
 
-    use crate::{utils::test_utils::create_test_buffer, Mute};
-
+    use crate::{Mute, utils::test_utils::create_test_buffer};
 
     #[test]
     fn basic_test() {

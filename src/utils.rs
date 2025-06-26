@@ -16,7 +16,9 @@ pub mod test_utils {
 
         // Ensure that the supplied buffer has two channels
         if real_buffers.len() != 2 {
-            return Err(String::from("Test buffer received did not receive an input vec with two channels"))
+            return Err(String::from(
+                "Test buffer received did not receive an input vec with two channels",
+            ));
         }
 
         let num_samples = match real_buffers.first() {
