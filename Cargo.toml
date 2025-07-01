@@ -9,6 +9,13 @@ authors = ["Callum Jones"]
 [lib]
 crate-type = ["cdylib", "lib"]
 
+[dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[[bench]]
+name = "mute_benchmark"
+harness = false
+
 [dependencies]
 # Enabling this feature will cause the plugin to terminate when allocations
 # occur in the processing function during debug builds. Keep in mind that panics

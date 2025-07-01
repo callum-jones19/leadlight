@@ -12,7 +12,7 @@ pub struct Mute {
 }
 
 impl Mute {
-    fn process_algorithm(&self, buffer: &mut Buffer) {
+    pub fn process_algorithm(&self, buffer: &mut Buffer) {
         for samples in buffer.iter_samples() {
             for sample in samples {
                 *sample = 0.0;
