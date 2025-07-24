@@ -8,7 +8,7 @@
 
 [workspace]
 resolver = "3"
-members = [ "plugin-mute", "plugin-utils", "xtask"]
+members = [ "benches", "plugin-mute", "plugin-utils", "xtask" ]
 
 [workspace.dependencies]
 # Enabling this feature will cause the plugin to terminate when allocations
