@@ -2,8 +2,6 @@ use std::sync::Arc;
 
 use nih_plug::prelude::*;
 
-mod utils;
-
 /// A plugin that takes any input, and then always provides an empty output.
 /// This is effectively like a mute
 #[derive(Default)]
@@ -83,7 +81,9 @@ Testing modules
 
 #[cfg(test)]
 mod tests {
-    use crate::{Mute, utils::test_utils::create_test_buffer};
+    use plugin_utils::create_test_buffer;
+
+    use crate::Mute;
 
     #[test]
     fn mute_buffer_512_long() {

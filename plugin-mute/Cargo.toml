@@ -8,3 +8,4 @@ crate-type = ["cdylib", "lib"]
 
 [dependencies]
 nih_plug = { workspace = true }
+plugin-utils = { path = "../plugin-utils" }
