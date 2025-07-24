@@ -6,6 +6,9 @@ license = "GPLv3"
 description = "A VST3-based suite of DSP effects"
 authors = ["Callum Jones"]
 
+[workspace]
+members = ["xtask"]
+
 [lib]
 crate-type = ["cdylib", "lib"]
 
