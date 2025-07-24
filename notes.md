@@ -107,3 +107,34 @@ These are the steps I followed:
     1. See [this](https://steinbergmedia.github.io/vst3_dev_portal/pages/Technical+Documentation/Locations+Format/Plugin+Format.html?highlight=.vst3%20file#for-the-windows-platform)
        link for an explanation of how we can actually bundle this into a VST3 file.
     2. I want to briefly pause this though to focus a bit more on testing.
+    3. (Post benchmarking setup) So, even though simply renaming the file
+       into a `.vst3` does work, I want to do it 'properly', in case it's otherwise
+       missing important metadata.
+    4. TO understand this, we're going to go through the `nih_plug_xtask` module
+       on the GitHub repo, and see what it's doing to the built files to eventually
+       bundle it into a `.vst3` file from the raw sys library.
+         1. If we run the xtask with `bundle`, then it does a two-stage operation.
+            Firstly, it build's the library. This is what would normally happen
+            when we run `cargo build --release`. It then, however, runs a function
+            called `bundle`. 
+         2. When this runs, it checks the build directory for a `lib_path`, which
+            I would assume is the `.so` file (on Linux).
+         3. If we are bundling a library, not a binary (which is the case here),
+            then it will execute a function called `bundle_plugin`. This then
+            has a few branching conditionals for what sort of plugin we are
+            bundling (e.g., CLAP, VST2, VST3, etc.)
+         4. For VST3, this will create the bundle path (the `.vst3` folder),
+            then create the necessary subfolders. At this stage, it will also
+            compile all the bundle metadata needed for MacOS and Steinberg.
+         5. Something to look into - I think the reason for `.vst3` files
+            essentially just being a folder is that it lets you bundle
+            multiple libraries into one plugin - look into this more.
+         6. So, in theory I could just move the `.so` file into a folder
+            ending with `.vst3`, but this may cause compatibility issues
+            for Mac? More importantly, though, the xtask bundler will detect
+            which formats your code supports without any extra setup needed.
+            That is, if you have the enable vst3 support macro in your plugin,
+            or the enable CLAP support macro, the bundler will detect this and
+            do it automatically.
+              1. Because of this, I'm just going to use the provided bundler.
+                 No point re-inventing the wheel.
