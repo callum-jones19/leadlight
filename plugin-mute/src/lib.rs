@@ -9,12 +9,10 @@ pub struct Mute {
     params: Arc<MuteParams>,
 }
 
-impl Mute {
-    pub fn process_algorithm(&self, buffer: &mut Buffer) {
-        for samples in buffer.iter_samples() {
-            for sample in samples {
-                *sample = 0.0;
-            }
+pub fn process_algorithm(buffer: &mut Buffer) {
+    for samples in buffer.iter_samples() {
+        for sample in samples {
+            *sample = 0.0;
         }
     }
 }
@@ -63,7 +61,7 @@ impl Plugin for Mute {
         _aux: &mut AuxiliaryBuffers,
         _context: &mut impl ProcessContext<Self>,
     ) -> ProcessStatus {
-        self.process_algorithm(buffer);
+        process_algorithm(buffer);
         ProcessStatus::Normal
     }
 }
@@ -83,13 +81,11 @@ Testing modules
 mod tests {
     use plugin_utils::create_test_buffer;
 
-    use crate::Mute;
+    use crate::process_algorithm;
 
     #[test]
     fn mute_buffer_512_long() {
         let sample_init_val = 5.0;
-
-        let empty_noise_plug = Mute::default();
 
         let mut real_buffers = vec![vec![sample_init_val; 512]; 2];
         let mut buffer = create_test_buffer(&mut real_buffers).unwrap();
@@ -103,7 +99,7 @@ mod tests {
 
         // Now pass the buffer through the processing algorithm, which should
         // assign every sample value to be 0.
-        empty_noise_plug.process_algorithm(&mut buffer);
+        process_algorithm(&mut buffer);
 
         // Verify the updated values
         for samples in buffer.iter_samples() {
@@ -117,8 +113,6 @@ mod tests {
     fn mute_buffer_0_long() {
         let sample_init_val = 5.0;
 
-        let empty_noise_plug = Mute::default();
-
         let mut real_buffers = vec![vec![sample_init_val; 0]; 2];
         let mut buffer = create_test_buffer(&mut real_buffers).unwrap();
 
@@ -131,7 +125,7 @@ mod tests {
 
         // Now pass the buffer through the processing algorithm, which should
         // assign every sample value to be 0.
-        empty_noise_plug.process_algorithm(&mut buffer);
+        process_algorithm(&mut buffer);
 
         // Verify the updated values
         for samples in buffer.iter_samples() {
@@ -145,8 +139,6 @@ mod tests {
     fn mute_buffer_1024_long() {
         let sample_init_val = 34.0;
 
-        let empty_noise_plug = Mute::default();
-
         let mut real_buffers = vec![vec![sample_init_val; 1024]; 2];
         let mut buffer = create_test_buffer(&mut real_buffers).unwrap();
 
@@ -159,7 +151,7 @@ mod tests {
 
         // Now pass the buffer through the processing algorithm, which should
         // assign every sample value to be 0.
-        empty_noise_plug.process_algorithm(&mut buffer);
+        process_algorithm(&mut buffer);
 
         // Verify the updated values
         for samples in buffer.iter_samples() {
