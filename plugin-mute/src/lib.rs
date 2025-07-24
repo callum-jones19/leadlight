@@ -1,20 +1,15 @@
 use std::sync::Arc;
 
 use nih_plug::prelude::*;
+use process::process_algorithm;
+
+pub mod process;
 
 /// A plugin that takes any input, and then always provides an empty output.
 /// This is effectively like a mute
 #[derive(Default)]
 pub struct Mute {
     params: Arc<MuteParams>,
-}
-
-pub fn process_algorithm(buffer: &mut Buffer) {
-    for samples in buffer.iter_samples() {
-        for sample in samples {
-            *sample = 0.0;
-        }
-    }
 }
 
 /// All the paramters for the EmptyNoise plugin are held in a single struct.

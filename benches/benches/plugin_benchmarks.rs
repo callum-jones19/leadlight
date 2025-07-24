@@ -9,7 +9,7 @@ fn base_benchmark(c: &mut Criterion) {
 
     c.bench_function("base mute", |b| {
         b.iter(|| {
-            plugin_mute::process_algorithm(&mut buffer);
+            plugin_mute::process::process_algorithm(&mut buffer);
         });
     });
 }
