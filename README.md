@@ -10,11 +10,16 @@ of processing plugins (which will be credited in all relevant plugins).
 ## Repository Outline
 
 Various components of this repository are divided across multiple crates. This
-will provide a brief outline of them:
+ill provide a brief outline of them:
 
 - `benches` is a crate that provides benchmarks across every processing
   algorithm and plugin present in this repository. It imports every available
-  plugin crate, and then supplies benchmark tests for each of them.
+  plugin crate, and then supplies benchmark tests for each of them. We do this
+  in a separate crate, rather than supplying a bench function within each
+  module, so that we can only initialise Criterion as a dependency in one place,
+  and then not need to ensure it is imported as a dev dependency universally.
+  This might be subject to change if the benches start to bloat out, or if it
+  ends up making more sense to hold them within each plugin.
 - `xtask` is a thin wrapper around the *nih-plug* `xtask` crate, and provides
   and easy way to access the building and bundling functionality this crate
   provides. The commands provided by xtask are exposed by the alias provided
