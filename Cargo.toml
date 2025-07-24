@@ -1,27 +1,19 @@
-[package]
-name = "thesis_vst"
-version = "0.1.0"
-edition = "2024"
-license = "GPLv3"
-description = "A VST3-based suite of DSP effects"
-authors = ["Callum Jones"]
+# [package]
+# name = "thesis_vst"
+# version = "0.1.0"
+# edition = "2024"
+# license = "GPLv3"
+# description = "A VST3-based suite of DSP effects"
+# authors = ["Callum Jones"]
 
 [workspace]
-members = ["xtask"]
+resolver = "3"
+members = [ "plugin-mute", "plugin-utils", "xtask"]
 
-[lib]
-crate-type = ["cdylib", "lib"]
-
-[dev-dependencies]
-criterion = { version = "0.5", features = ["html_reports"] }
-
-[[bench]]
-name = "mute_benchmark"
-harness = false
-
-[dependencies]
+[workspace.dependencies]
 # Enabling this feature will cause the plugin to terminate when allocations
 # occur in the processing function during debug builds. Keep in mind that panics
 # may also allocate if they use string formatting, so temporarily disabling this
 # feature may be necessary when debugging panics in DSP code.
 nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", features = ["assert_process_allocs", "standalone"] }
+

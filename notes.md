@@ -75,6 +75,11 @@ These are the steps I followed:
       1. We also want to test performance of the library (see the ThesisA report
          ). To do this, we will use a performance benchnarking library, such as
          `criterion-rs`.
+         1. Turns out Rust has a built-in benchmarking system, using
+            `cargo bench`. I'm going to try to use this one first, and then
+            when I see its limitations, I'll move onto Criterion.
+         2. See here for some notes on how `cargo bench` works:
+            https://seenaburns.com/benchmarking-rust-with-cargo-bench/
       2. I can't apply a test directly to the implemented `process(...)` function.
          This is because it needs a reference to the processing context, which
          the testing suite won't have access to (as far as I'm aware). So,
