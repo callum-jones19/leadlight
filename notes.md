@@ -138,3 +138,13 @@ These are the steps I followed:
             do it automatically.
               1. Because of this, I'm just going to use the provided bundler.
                  No point re-inventing the wheel.
+         7. Then, to compile our current mute plugin, we need to run
+            `cargo xtask bundle thesis_vst`. We run this because the final
+            parameter is telling the bundler which **module** to look for.
+            Because currently our plugin is just the one lib in the src
+            folder of the project, this is what gets compiled. That means,
+            if we want to make multiple VSTs (which we eventually do), there
+            will need to be one module folder for each VST.
+11. At this point, I want to take a second to re-organise the module, because
+    with the info above, it's clear that we'll need to change it for when
+    we start to add the new stuff.
