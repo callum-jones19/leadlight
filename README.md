@@ -29,6 +29,32 @@ ill provide a brief outline of them:
   exposed, and is minimised through proper wrapper functions.
 - `plugin-mute` is the Mute VST3 plugin.
 
+## Getting Started
+
+The repository has a few system-level dependencies. The following should be
+sufficient on Debian/Ubuntu-based Linux systems. If there are dependencies
+missing from this list, please file an issue (note: TODO):
+
+```bash
+sudo apt install 
+```
+
+Once all dependencies are installed, you can check everything is working as
+intended by running the autotests:
+
+```bash
+cargo test
+```
+
+To build a plugin from source, execute the following command:
+
+```bash
+cargo xtask bundle {plugin-name}
+```
+
+where `plugin-name` refers to the name of the plugin crate, as defined in its
+`Cargo.toml`.
+
 ## Licensing Notices
 
 As this plugin suite is built on top of Steinberg's VST-3 technologies, it is
