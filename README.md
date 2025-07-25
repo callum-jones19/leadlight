@@ -70,6 +70,9 @@ To run the benchmarks for each module, execute:
 cargo bench
 ```
 
+The results of this benchmark will be accessible as an HTML-formatted interactive report,
+available at the subdirectory `target/criterion/report/index.html`.
+
 ## Licensing Notices
 
 As this plugin suite is built on top of Steinberg's VST-3 technologies, it is
