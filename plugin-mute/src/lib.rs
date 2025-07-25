@@ -23,7 +23,7 @@ struct MuteParams {}
 impl Plugin for Mute {
     const NAME: &'static str = "Mute";
     const VENDOR: &'static str = "Callum Jones";
-    const URL: &'static str = "TODO";
+    const URL: &'static str = "https://github.com/callum-jones19/thesis_vst/";
     const EMAIL: &'static str = "TODO";
 
     const VERSION: &'static str = "0.1.0";
