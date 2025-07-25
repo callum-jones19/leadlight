@@ -12,13 +12,11 @@ pub fn process_algorithm(buffer: &mut Buffer) {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use plugin_utils::create_two_channel_buffer;
 
     use crate::process::process_algorithm;
-
 
     #[test]
     /// Create a two-channel buffer filled with 512 samples of value 5.0.
@@ -114,4 +112,3 @@ mod tests {
         }
     }
 }
-

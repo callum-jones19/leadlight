@@ -1,6 +1,5 @@
 use nih_plug::buffer::Buffer;
 
-
 /// Create a two-channel audio buffer from a 2D Array with 2 entries on the
 /// y axis. This function wraps around the unsafe `Buffer::set_slices` function
 /// to provide a safe implementation to programatically define a buffer with

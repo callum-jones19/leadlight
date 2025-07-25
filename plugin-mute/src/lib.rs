@@ -69,7 +69,8 @@ impl Vst3Plugin for Mute {
 impl ClapPlugin for Mute {
     const CLAP_ID: &'static str = "CallumJonesMutePlugin";
 
-    const CLAP_DESCRIPTION: Option<&'static str> = Some("A plugin to take an input stream and completely mute it");
+    const CLAP_DESCRIPTION: Option<&'static str> =
+        Some("A plugin to take an input stream and completely mute it");
 
     const CLAP_MANUAL_URL: Option<&'static str> = None;
 
