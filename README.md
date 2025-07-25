@@ -32,11 +32,12 @@ ill provide a brief outline of them:
 ## Getting Started
 
 The repository has a few system-level dependencies. The following should be
-sufficient on Debian/Ubuntu-based Linux systems. If there are dependencies
-missing from this list, please file an issue (note: TODO):
+sufficient on Ubuntu-based Linux systems. If there are dependencies
+missing from this list, or you believe there is an extraneous dependency,
+please file an issue:
 
 ```bash
-sudo apt install 
+apt install build-essential pkg-config libasound2-dev libgl-dev libx11-xcb-dev libjack-dev
 ```
 
 Once all dependencies are installed, you can check everything is working as
