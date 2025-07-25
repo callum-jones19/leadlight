@@ -66,4 +66,17 @@ impl Vst3Plugin for Mute {
     const VST3_SUBCATEGORIES: &'static [Vst3SubCategory] = &[Vst3SubCategory::Tools];
 }
 
+impl ClapPlugin for Mute {
+    const CLAP_ID: &'static str = "CallumJonesMutePlugin";
+
+    const CLAP_DESCRIPTION: Option<&'static str> = Some("A plugin to take an input stream and completely mute it");
+
+    const CLAP_MANUAL_URL: Option<&'static str> = None;
+
+    const CLAP_SUPPORT_URL: Option<&'static str> = None;
+
+    const CLAP_FEATURES: &'static [ClapFeature] = &[ClapFeature::Gate];
+}
+
 nih_export_vst3!(Mute);
+nih_export_clap!(Mute);
