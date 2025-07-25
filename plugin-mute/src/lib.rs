@@ -12,7 +12,7 @@ pub struct Mute {
     params: Arc<MuteParams>,
 }
 
-/// All the paramters for the EmptyNoise plugin are held in a single struct.
+/// All the paramters for the Mute plugin are held in a single struct.
 /// This allows us to apply the `Params` macro to the struct itself, which then
 /// allows nih_plug to
 ///
@@ -62,7 +62,7 @@ impl Plugin for Mute {
 }
 
 impl Vst3Plugin for Mute {
-    const VST3_CLASS_ID: [u8; 16] = *b"EmptyNoisePlugin";
+    const VST3_CLASS_ID: [u8; 16] = *b"fooofooofooofoo1";
     const VST3_SUBCATEGORIES: &'static [Vst3SubCategory] = &[Vst3SubCategory::Tools];
 }
 
