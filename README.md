@@ -40,6 +40,14 @@ please file an issue:
 apt install build-essential pkg-config libasound2-dev libgl-dev libx11-xcb-dev libjack-dev
 ```
 
+There is currently one optional dependency, `gnuplot`. This is the default plotting tool for
+Criterion-rs (the benchmarking tool), however if `gnuplot` is not found, Criterion will
+fallback to the `plotters` crate backend. This optional dependency can be installed via
+
+```bash
+apt install gnuplot
+```
+
 Once all dependencies are installed, you can check everything is working as
 intended by running the autotests:
 
