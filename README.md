@@ -56,6 +56,12 @@ cargo xtask bundle {plugin-name}
 where `plugin-name` refers to the name of the plugin crate, as defined in its
 `Cargo.toml`.
 
+To run the benchmarks for each module, execute:
+
+```bash
+cargo bench
+```
+
 ## Licensing Notices
 
 As this plugin suite is built on top of Steinberg's VST-3 technologies, it is
