@@ -153,3 +153,35 @@ These are the steps I followed:
 11. At this point, I want to take a second to re-organise the module, because
     with the info above, it's clear that we'll need to change it for when
     we start to add the new stuff.
+
+
+## Stuff I missed at the start lol:
+
+- Going through what is unimplemented in the vst3-sys core crate.
+  - Firstly, worth noting that the last commit to the vst3-sys library was
+    3 years ago - initial indicator that it is probably relatively stable
+    for almost all purposes.
+  - No open issues indicating issues with missing APIs - there is a single
+    issue from 2020 noting which APIs are not implemented, but again, this hasn't
+    really changed since then
+      - These are the following:
+        1. `ivsthostapplication.h`
+        2. `ivstinterappaudio.h`
+        3. `ivstphysicalui.h`
+        4. `ivsttestplugprovider.h`
+        5. `vstpresetkeys.h`
+        6. `vstpshtpack4.h`
+        7. `vstspeaker.h`
+  - The repo itself notes that you can find things that are unimplemented by
+    searching for `todo` in the project root itself
+    - Broadly speaking, these line up. However, a few inconsistencies.
+  - In the end, I moved away from doing a super detailed scrape of the missing features.
+    There were a few factors behind this logic:
+    1. The library I'm actually using nih-plug. This is an abstraction **around**
+       `vst3-sys`. This means that if there is a missing feature in vst3-sys that
+       I will be relying on, it will either not be implemented in nih-plug (which
+       will be obvious to me, and therefore I can contribute it upstream - it
+       won't fail silently, which is what I should be worried about).
+    2. There is no similar warning in the actual `nih-plug` library. This suggests
+       that there are no major missing interfaces.
+    3. Fundamentally, there were no crucial missing interfaces.
