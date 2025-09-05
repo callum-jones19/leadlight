@@ -44,3 +44,8 @@ Setting up BiqP:
     every sample, we will not only do those co-efficients, but we will
     quickyl generate an interpolation between a beginning and an end section.
     This should in theory smooth things out.
+
+First concern:
+
+- Get basic enum going.
+  - 
