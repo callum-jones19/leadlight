@@ -22,4 +22,16 @@ Explanation
 
 TODO
 
+### Lowpass/Highpass Filters
+
+TODO
+
+### Dynamic range
+
+### Headroom
+
+### Noise floor
+
+### Biquad filter
+
 

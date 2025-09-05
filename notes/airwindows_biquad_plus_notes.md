@@ -25,6 +25,12 @@ Again, to reiterate, this is based on **Biquad Plus**.
 - This plugin is itself based on the "standard" Airwindows Biquad, so understanding this one
   should be relatively useful across the board.
 
+What is zipper noise?
+
+- Zipper noise is the effect that happens when the gain massively jumps between its highest
+  and lowest settings really, really quickly and constantly. A single instance of this might
+  just create a click or pop noise, but in a constant pattern it produces a zipper-like noise.
+
 Setting up BiqP:
 
 - Not needing additional sliders - just setting it up like BQ then
