@@ -8,7 +8,9 @@ On the actual GUI side of things, we have 3 controls:
 - bass
 - output
 
-## Processing code variables
+## Baxandall
+
+### Variable names
 
 In `Baxandall.h`, we have some private vars:
 
@@ -44,7 +46,7 @@ In the processing function, we see a few more variables pop up:
   - It might be the shelving cutoff? Only reason I say this is because
     its value is tied directly to the value of trebleAL and bassAL
 
-## VST-specific code
+### VST-specific code
 
 `getChunk` and `setChunk` both refer to `A`, `B`, and `C`. What do they do?
 
@@ -54,7 +56,7 @@ In the processing function, we see a few more variables pop up:
   0.5 initialises it to the middle, which then gets transformed
   in the subsequent variables to be "-15.0 <=> 0 <=> 15.0".
 
-## What to ask Chris
+### What to ask Chris
 
 Why do we use functions like tan() in calculating the K value, as well
 as PI.
