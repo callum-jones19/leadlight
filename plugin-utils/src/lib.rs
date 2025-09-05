@@ -22,7 +22,7 @@ use nih_plug::buffer::Buffer;
 ///     }
 /// }
 /// ```
-pub fn create_two_channel_buffer(real_buffers: &mut [Vec<f32>]) -> Result<Buffer, String> {
+pub fn create_two_channel_buffer(real_buffers: &'_ mut [Vec<f32>]) -> Result<Buffer<'_>, String> {
     // This section of unsafe code is directly pulled from nih-plug's internal
     // buffer tests. For now, I will assume this is therefore a verified
     // implementation.
