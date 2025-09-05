@@ -27,3 +27,6 @@ back. There are a couple of really crucial reasons.
    can learn a lot. Again, it comes back to the idea that if I'm learning all this
    relatively foundational stuff, it seems a bit pointless not to make that what I actually
    code and implement first.
+   1. Plus, once I understand this, I will be able to come back to Baxandall with both
+      a better understanding of audio filters and EQs in general, as well as a stronger
+      understanding of Airwindows and Chris' programming style in general.
