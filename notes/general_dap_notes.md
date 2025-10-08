@@ -24,7 +24,12 @@ TODO
 
 ### Lowpass/Highpass Filters
 
-TODO
+Lowpass filter = a filter that *passes* signals with a frequency lower than a selected
+cutoff frequency, and *attenuates* signals with frequencies higher than the cutoff
+frequency.
+
+Highpass filter = *passes* signals with frequency higher than the cutoff frequency, and
+*attenuates* signals with frequencies lower than the cutoff frequency.
 
 ### Dynamic range
 
