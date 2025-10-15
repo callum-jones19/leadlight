@@ -86,6 +86,20 @@ Convolution is a formal mathematical operation: takes two signals, produces a th
 - Describes the relationship between the input signal, output signal and impulse response.
 - Convolution is represented by a star formally: $\circledast$.
 
+**Shifting and scaling** the delta function:
+
+- Consider a signal $a[n]$. It is composed of _all zeros_, except for sample
+  8 which has a value of $-3$.
+- This is the same as a delta function shifted right 8 and multiplied by -3.
+- Mathematically: $a[n] = -3 \sigma [n - 8]$.
+  - If you want an alternate way to this about why we say $-8$ to shift the delta function 8 units to the right, 
+    imagine we have our finger on point 8 of the delta function. It has a value of $0$. So, we think how can we get
+    this to equal the value that is at index 0 (and hence "shift" the graph)? Well, we intuitively just subtract 8.
+- This notation can (and is) used as a convenient notation for describing the position and amplitude. If, e.g., we are
+  considering an _impulse_ from an impulse decomposition at index 4 with amplitude 4.3, then we can represent the impulse
+  as $4.3 \sigma [n - 4]$ (a shifted and scaled delta function). The _output_ component of this can be represented as
+  $4.3h[n - 4]$ (a shifted and scaled impulse response).
+
 For example, a low-pass filter would look like this:
 
 ![lowpass-convolution](./assets/low_pass_filter_convolution_equation.png)
@@ -104,3 +118,15 @@ Length of the output signal = `length of the input signal` + `length of impulse 
 5. This continues until every sample of the impulse response has been applied onto our output signal.
 6. Therefore, we end up with an output signal consisting of $20 + 5 - 1 = 24$ samples ($-1$ because the first impulse
    response sample on the final iteration is applied to input sample 20, not 21).
+
+So this explains the _process_ of convolution, but what are the _mathematics_ of convolution?
+
+The textbook notes that there are two ways of thinking about the mathematics of convolution: you can think about it
+from the perspective of the input signal, or the perspective of the output signal.
+
+POV of the input signal = how does each sample in the input signal contribute to many points in the output signal:
+
+- We can do this in two possible ways
+  1. ![convolution-isa1](./assets/convolution_input_side_algorithm_example1.png)
+  2. ![convolution-isa2](./assets/convolution_input_side_algorithm_example2.png)
+- These both give identical outputs. This shows us that convolution is **commutative**.
