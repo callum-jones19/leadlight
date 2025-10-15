@@ -43,9 +43,9 @@ Decompositions:
     for a given input. This is called **convolution**.
   - Maybe try to conceptualise it like this:
     - You have a discrete sampled signal. Say, 20 samples in the signal we are looking at.
-    - This sampled signal is plotted on a graph, where the x axis has 20 discrete points (duh).
+    - This sampled signal is plotted on a graph, where the x-axis has 20 discrete points (duh).
     - Individually, grab the value of each sample.
-    - For each sample, create a new graph, which also has 20 discrete points on its x axis.
+    - For each sample, create a new graph, which also has 20 discrete points on its x-axis.
     - Place each sample on its respective graph, and then fill in each other of the 19 remaining 
       points with 0.
     - Thus, you end up with 20 graphs, each with a single point with a non-0 value, and 19
