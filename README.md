@@ -4,7 +4,7 @@
 
 The centralised repository for all Rust DSP effects created for my thesis.
 
-All major effects seen in this repository are based off the airwindows suite
+All major effects seen in this repository are based off the Airwindows suite
 of processing plugins (which will be credited in all relevant plugins).
 
 ## Repository Outline
@@ -22,7 +22,7 @@ ill provide a brief outline of them:
   ends up making more sense to hold them within each plugin.
 - `xtask` is a thin wrapper around the *nih-plug* `xtask` crate, and provides
   and easy way to access the building and bundling functionality this crate
-  provides. The commands provided by xtask are exposed by the alias provided
+  provides. The commands provided by xTask are exposed by the alias provided
   in `.cargo/config.toml`.
 - `plugin-utils` provides utility functions that are shared between plugins.
   This is currently mainly used when certain `unsafe` functionality must be
@@ -42,7 +42,7 @@ apt install build-essential pkg-config libasound2-dev libgl-dev libx11-xcb-dev l
 
 There is currently one optional dependency, `gnuplot`. This is the default plotting tool for
 Criterion-rs (the benchmarking tool), however if `gnuplot` is not found, Criterion will
-fallback to the `plotters` crate backend. This optional dependency can be installed via
+fall back to the `plotters` crate backend. This optional dependency can be installed via
 
 ```bash
 apt install gnuplot
@@ -79,7 +79,7 @@ As this plugin suite is built on top of Steinberg's VST-3 technologies, it is
 appropriately licensed under the GPLv3 licence.
 
 The code is built on top of a number of other existing products, which are
-credited in the [notices](notices/) directory:
+credited in the [notices](notices/README.md) directory:
 
 1. **Airwindows**, by Chris Johnson. Certain plugin code is directly derived from
    the Airwindows algorithms, which is licensed under the MIT licence. Please
