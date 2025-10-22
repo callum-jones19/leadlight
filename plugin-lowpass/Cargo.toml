@@ -1,0 +1,11 @@
+[package]
+name = "plugin-lowpass"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[dependencies]
+nih_plug = { workspace = true }
+plugin-utils = { path = "../plugin-utils" }

@@ -1,14 +1,6 @@
-# [package]
-# name = "thesis_vst"
-# version = "0.1.0"
-# edition = "2024"
-# license = "GPLv3"
-# description = "A VST3-based suite of DSP effects"
-# authors = ["Callum Jones"]
-
 [workspace]
 resolver = "3"
-members = [ "benches", "plugin-mute", "plugin-utils", "xtask" ]
+members = [ "benches", "plugin-mute", "plugin-utils", "xtask", "plugin-lowpass" ]
 
 [workspace.dependencies]
 # Enabling this feature will cause the plugin to terminate when allocations
