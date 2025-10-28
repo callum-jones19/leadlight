@@ -62,7 +62,7 @@ impl Plugin for Lowpass {
 }
 
 impl Vst3Plugin for Lowpass {
-    const VST3_CLASS_ID: [u8; 16] = *b"fooofooofooofoo1";
+    const VST3_CLASS_ID: [u8; 16] = *b"fooofooofooofoo4";
     const VST3_SUBCATEGORIES: &'static [Vst3SubCategory] = &[Vst3SubCategory::Tools];
 }
 
