@@ -12,7 +12,7 @@ pub fn lowpass_filter_kernel() -> Vec<f32> {
     let mut ir: Vec<f32> = Vec::new();
     for x in 0i8..LOWPASS_SIZE {
         let x = f32::from(x);
-        let amplitude = 20.0;
+        let amplitude = 0.058;
         let ir_sample = amplitude * f32::sin((PI * x) / 30.0);
         ir.push(ir_sample);
     }
