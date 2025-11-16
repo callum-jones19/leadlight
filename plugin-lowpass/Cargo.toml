@@ -9,3 +9,4 @@ crate-type = ["cdylib", "lib"]
 [dependencies]
 nih_plug = { workspace = true }
 plugin-utils = { path = "../plugin-utils" }
+rand = "0.9.2"

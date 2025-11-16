@@ -80,3 +80,21 @@ IIR Sample value. The smaller the iirAmount (i.e., the lower the threshold
 frequency), then the larger the weight of the previous iirSample, and the
 smaller the weight of the new inputSample. In other words, the wider the
 moving average's window.
+
+## Tight
+
+(Default)
+B = 0
+
+tight = (0 * 2) - 1 = -1
+
+tight = tight / 3 = -0.33333333
+
+For each sample:
+
+- offset = (1 + tight) + (1 - |inputSample| * tight)
+    	   = (1 - 0.333333) + (1 - (? * -0.33333))
+				 = 0.66666666 + 1 + |??|
+				 = 1.66666 + |??|
+				 > 1
+				 = 1 (code clamps to 1 if > 1, which with default values is guaranteed)
