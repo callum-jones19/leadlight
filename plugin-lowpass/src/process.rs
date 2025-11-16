@@ -3,7 +3,7 @@ use core::f32;
 use nih_plug::buffer::Buffer;
 use rand::Rng;
 
-pub fn process_lowpass(buffer: &mut Buffer, lowpass_amount: f32) {
+pub fn process_lowpass(buffer: &mut Buffer, lowpass_amount: f32, channel_data: &mut Vec<f64>) {
     // TODO why do we need this calculation?
     // At the Nyquist frequency, this should be 1.
     // This should never exceed 1 or go below 0.
@@ -20,16 +20,16 @@ pub fn process_lowpass(buffer: &mut Buffer, lowpass_amount: f32) {
     // We start with 0.0 because the assumption with an IIR convolution is that
     // the signal is padded on either side with 0 (not repeating like an FIR
     // would assume)
-    let mut iir_sample_channels: Vec<f64> = vec![0.0; buffer.channels()];
+    // let mut iir_sample_channels: Vec<f64> = vec![0.0; buffer.channels()];
     for channel_samples in buffer.iter_samples() {
         for (channel_index, current_sample) in channel_samples.into_iter().enumerate() {
             let cast_curr_sample: f64 = (*current_sample).into();
-            let weighted_iir_sample: f64 = iir_sample_channels[channel_index] * (1.0 - iir_amount);
+            let weighted_iir_sample: f64 = channel_data[channel_index] * (1.0 - iir_amount);
             let weighted_curr_sample: f64 = cast_curr_sample * iir_amount;
-            iir_sample_channels[channel_index] = weighted_iir_sample + weighted_curr_sample;
+            channel_data[channel_index] = weighted_iir_sample + weighted_curr_sample;
 
             // Output to buffer
-            *current_sample = iir_sample_channels[channel_index] as f32;
+            *current_sample = channel_data[channel_index] as f32;
         }
     }
 }

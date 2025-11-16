@@ -5,17 +5,11 @@ use process::process_lowpass;
 
 pub mod process;
 
-/// A plugin that takes any input, and then always provides an empty output.
-/// This is effectively like a mute
 pub struct Lowpass {
     params: Arc<LowpassParams>,
+    channel_data: Vec<f64>,
 }
 
-/// All the paramters for the Mute plugin are held in a single struct.
-/// This allows us to apply the `Params` macro to the struct itself, which then
-/// allows nih_plug to
-///
-/// We also want to return this struct in the params function of the Plugin trait.
 #[derive(Params)]
 struct LowpassParams {
     #[id = "lowpass_amount"]
@@ -36,6 +30,7 @@ impl Default for Lowpass {
         let default_lowpass_params = LowpassParams::new();
         Lowpass {
             params: Arc::new(default_lowpass_params),
+            channel_data: Vec::new(),
         }
     }
 }
@@ -77,8 +72,21 @@ impl Plugin for Lowpass {
         _context: &mut impl ProcessContext<Self>,
     ) -> ProcessStatus {
         let lowpass_amount = self.params.lowpass_amount.value();
-        process_lowpass(buffer, lowpass_amount);
+        process_lowpass(buffer, lowpass_amount, &mut self.channel_data);
         ProcessStatus::Normal
+    }
+
+    fn initialize(
+        &mut self,
+        audio_io_layout: &AudioIOLayout,
+        buffer_config: &BufferConfig,
+        context: &mut impl InitContext<Self>,
+    ) -> bool {
+        for t in audio_io_layout.main_input_channels {
+            self.channel_data.push(0.0);
+        }
+
+        true
     }
 }
 
