@@ -74,3 +74,9 @@ iirSample = (iirSample * (1 - iirAmount)) + (inputSample * iirAmount)
 
 ```
 
+So, essentially this is a sort of moving-average time-domain IIR filter.
+It takes the input sample, and then combines it (weighted) with the previous
+IIR Sample value. The smaller the iirAmount (i.e., the lower the threshold
+frequency), then the larger the weight of the previous iirSample, and the
+smaller the weight of the new inputSample. In other words, the wider the
+moving average's window.

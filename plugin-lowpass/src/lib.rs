@@ -1,13 +1,12 @@
 use std::sync::Arc;
 
 use nih_plug::prelude::*;
-use process::process_algorithm;
+use process::process_lowpass;
 
 pub mod process;
 
 /// A plugin that takes any input, and then always provides an empty output.
 /// This is effectively like a mute
-#[derive(Default)]
 pub struct Lowpass {
     params: Arc<LowpassParams>,
 }
@@ -17,8 +16,29 @@ pub struct Lowpass {
 /// allows nih_plug to
 ///
 /// We also want to return this struct in the params function of the Plugin trait.
-#[derive(Params, Default)]
-struct LowpassParams {}
+#[derive(Params)]
+struct LowpassParams {
+    #[id = "lowpass_amount"]
+    lowpass_amount: FloatParam,
+}
+
+impl LowpassParams {
+    pub fn new() -> Self {
+        let lowpass_range = FloatRange::Linear { min: 0.0, max: 1.0 };
+        LowpassParams {
+            lowpass_amount: FloatParam::new("Lowpass Amount", 1.0, lowpass_range),
+        }
+    }
+}
+
+impl Default for Lowpass {
+    fn default() -> Self {
+        let default_lowpass_params = LowpassParams::new();
+        Lowpass {
+            params: Arc::new(default_lowpass_params),
+        }
+    }
+}
 
 impl Plugin for Lowpass {
     const NAME: &'static str = "Lowpass";
@@ -54,10 +74,10 @@ impl Plugin for Lowpass {
         &mut self,
         buffer: &mut Buffer,
         _aux: &mut AuxiliaryBuffers,
-        context: &mut impl ProcessContext<Self>,
+        _context: &mut impl ProcessContext<Self>,
     ) -> ProcessStatus {
-        let sample_rate = context.transport().sample_rate;
-        process_algorithm(buffer);
+        let lowpass_amount = self.params.lowpass_amount.value();
+        process_lowpass(buffer, lowpass_amount);
         ProcessStatus::Normal
     }
 }
