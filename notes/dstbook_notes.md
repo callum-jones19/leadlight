@@ -121,3 +121,73 @@ Remember, with $X[m]$:
     each value to have one of the composite analaysis frequencies of our wave,
     and then have some sort of representation of 'how much' of the final
     wave it makes up.
+
+
+  ## Frequency Domain Convolution
+
+  **The Convolution Theorem**: the DFT of a convolution of two input waves
+  is equivalent to the product of the DFTs of the two input waves.
+
+  ### Low-pass filters
+
+  A (non-ideal) way to create a low-pass filter is to average sample values
+  together over a short window of time, known as a *moving average filter*.
+
+  - High frequencies oscillate within the time window, and therefore average
+    to zero. Low frequencies will not.
+  - This filter would operate within the time domain.
+  - We can analyse the effect of this filter approach by analysing the results
+    of the DFT on it. We then look at the magnitude of the resulting wave.
+    We can see that the curve actually has some ripples with this approach,
+    leading some higher frequencies to be less attenuated than some lower
+    frequencies.
+
+  "Ideal" low-pass filter
+
+  - Start in the frequency domain
+  - Have our system's impulse response be h\[m\].
+  - Set H\[m\] = 0 where `m` is above our cutoff frequency for the low-pass filter,
+    and set H\[m\] = 1 where it is below.
+  - This implementation has an issue:
+    - The time-domain representation of the impulse response of this "ideal"
+      low-pass filter oscillates around 0, and is a periodic wave.
+    - These oscillations produce audible artifacts, known as **ringing**, when
+      the IR is convolved with a signal.
+    - These occur because sharp edges are difficult to represent by continuous
+      sinusoids (both in the frequency and the time domain). Because the ideal
+      filter is infinitely sharp, it requires infinitely many samples to represent
+      in the time domain. Any finite approximation will produce ringing
+      artifacts.
+    - Because of ringing, ideal low-pass filters are almost never used in
+      practice.
+
+Filter design:
+
+- Terminology:
+  - Pass-band: frequencies allowed through the filter
+  - Stop-band: frequencies stopped by the filter
+  - Transition band: frequencies affected by the filter, but still audible.
+- Different trade-offs exist, and need to be made when designing a filter. We
+  want to maximise:
+  - High stop-band attenuation (filter stops frequencies when it should)
+  - Small pass-band ripple (passing frequencies not too distorted).
+  - Narrow transition band (filter efficiently moves from pass to stop behaviour).
+
+## Analysing IIR filters
+
+Transfer functions:
+
+- Can be thought of as a generalisation of convolution theorem to support
+  feedback filters (IIR filters).
+- If we are dealing with FIR filters, we can examine the DFT $H\[m\]$ of the
+  impulse response $h\[k\]$. This analysis cannot be applied to IIR filters,
+  as there is no defined IR length. The transfer function $H\[z\]$ is like
+  $H\[m\]$, except it is from the perspective of the z-Transform, not the
+  DFT.
+
+Poles and zeroes:
+
+- In a general sense:
+  - frequencies near zeroes are attenuated
+  - frequencies near the poles are amplified.
+

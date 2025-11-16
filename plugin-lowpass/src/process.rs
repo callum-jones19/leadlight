@@ -48,7 +48,6 @@ pub fn process_algorithm(buffer: &mut Buffer) {
         for i in 0..channel_iter.len() {
             let input_sample = channel_iter.get_mut(i).unwrap();
             for (j, kernel_sample) in lowpass_ir.iter().enumerate() {
-                // output_signal[i + j] = output_signal[i + j] + input_sample + kernel_sample;
                 match output_signal.get_mut(i + j) {
                     Some(accumulated_impulse) => {
                         *accumulated_impulse =

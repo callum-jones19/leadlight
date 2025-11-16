@@ -54,8 +54,9 @@ impl Plugin for Lowpass {
         &mut self,
         buffer: &mut Buffer,
         _aux: &mut AuxiliaryBuffers,
-        _context: &mut impl ProcessContext<Self>,
+        context: &mut impl ProcessContext<Self>,
     ) -> ProcessStatus {
+        let sample_rate = context.transport().sample_rate;
         process_algorithm(buffer);
         ProcessStatus::Normal
     }
@@ -69,8 +70,9 @@ impl Vst3Plugin for Lowpass {
 impl ClapPlugin for Lowpass {
     const CLAP_ID: &'static str = "CallumJonesLowpassPlugin";
 
-    const CLAP_DESCRIPTION: Option<&'static str> =
-        Some("A basic lowpass filter, designed based on the algorithm notes given in The Scientist and Engineer's Guide to Digital Signal Processing, 2nd edn, by Steven W. Smith.");
+    const CLAP_DESCRIPTION: Option<&'static str> = Some(
+        "A basic lowpass filter, designed based on the algorithm notes given in The Scientist and Engineer's Guide to Digital Signal Processing, 2nd edn, by Steven W. Smith.",
+    );
 
     const CLAP_MANUAL_URL: Option<&'static str> = None;
 
