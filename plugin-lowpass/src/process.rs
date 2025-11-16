@@ -11,7 +11,7 @@ pub fn process_lowpass(buffer: &mut Buffer, lowpass_amount: f32) {
     // let mut iir_amount: f64 = (cast_lowpass.powi(2) + cast_lowpass) / 2.0;
     // iir_amount += iir_amount;
     // iir_amount = iir_amount.clamp(0.0, 1.0);
-    let iir_amount: f64 = cast_lowpass;
+    let iir_amount: f64 = cast_lowpass / 5.0;
 
     // The IIR filter value. We define this outside the loop so that we can
     // accumulate the value as we iterate over the buffer. This allows us to
@@ -20,23 +20,16 @@ pub fn process_lowpass(buffer: &mut Buffer, lowpass_amount: f32) {
     // We start with 0.0 because the assumption with an IIR convolution is that
     // the signal is padded on either side with 0 (not repeating like an FIR
     // would assume)
-    let mut iir_sample: f64 = 0.0;
-
-    let mut rng = rand::rng();
-    let mut fpd: f64 = rng.random();
-
+    let mut iir_sample_channels: Vec<f64> = vec![0.0; buffer.channels()];
     for channel_samples in buffer.iter_samples() {
-        for current_sample in channel_samples {
-            // Deal with edge cases of tiny values that should be dithered
-            if current_sample.abs() < 1.18e-23 {}
-
+        for (channel_index, current_sample) in channel_samples.into_iter().enumerate() {
             let cast_curr_sample: f64 = (*current_sample).into();
-            let weighted_iir_sample: f64 = iir_sample * (1.0 - iir_amount);
+            let weighted_iir_sample: f64 = iir_sample_channels[channel_index] * (1.0 - iir_amount);
             let weighted_curr_sample: f64 = cast_curr_sample * iir_amount;
-            iir_sample = weighted_iir_sample + weighted_curr_sample;
+            iir_sample_channels[channel_index] = weighted_iir_sample + weighted_curr_sample;
 
             // Output to buffer
-            *current_sample = iir_sample as f32;
+            *current_sample = iir_sample_channels[channel_index] as f32;
         }
     }
 }
