@@ -15,6 +15,8 @@ use nih_plug::{buffer::Buffer, plugin::ProcessStatus};
 ///
 /// When `lowpass_amount` is set to 1.0, the output value should be unchanged.
 /// At 0.0, the output value should always be 0.
+///
+/// Returns `ProcessStatus`
 pub fn process_lowpass(
     buffer: &mut Buffer,
     lowpass_amount: f32,
