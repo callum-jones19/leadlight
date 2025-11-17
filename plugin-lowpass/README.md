@@ -1,6 +1,6 @@
 # Lowpass
 
-A basic lowpass filter. The algorithm was derived by taking stripping the
+A basic lowpass filter. The algorithm was derived by stripping the
 Airwindows Lowpass filter down to its bare essentials.
 
 The design process was a combination of the knowledge I learned
