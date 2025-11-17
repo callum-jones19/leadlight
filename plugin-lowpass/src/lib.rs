@@ -7,7 +7,7 @@ pub mod process;
 
 pub struct Lowpass {
     params: Arc<LowpassParams>,
-    channel_data: Vec<f64>,
+    channel_feedback_vals: Vec<f64>,
 }
 
 #[derive(Params)]
@@ -30,7 +30,7 @@ impl Default for Lowpass {
         let default_lowpass_params = LowpassParams::new();
         Lowpass {
             params: Arc::new(default_lowpass_params),
-            channel_data: Vec::new(),
+            channel_feedback_vals: Vec::new(),
         }
     }
 }
@@ -72,18 +72,20 @@ impl Plugin for Lowpass {
         _context: &mut impl ProcessContext<Self>,
     ) -> ProcessStatus {
         let lowpass_amount = self.params.lowpass_amount.value();
-        process_lowpass(buffer, lowpass_amount, &mut self.channel_data);
-        ProcessStatus::Normal
+        process_lowpass(buffer, lowpass_amount, &mut self.channel_feedback_vals)
     }
 
+    /// Create a f64 feedback value for each channel that the lowpass will
+    /// be processing.
     fn initialize(
         &mut self,
         audio_io_layout: &AudioIOLayout,
-        buffer_config: &BufferConfig,
-        context: &mut impl InitContext<Self>,
+        _buffer_config: &BufferConfig,
+        _context: &mut impl InitContext<Self>,
     ) -> bool {
-        for t in audio_io_layout.main_input_channels {
-            self.channel_data.push(0.0);
+        let mut input_channels = audio_io_layout.main_input_channels.into_iter();
+        while let Some(_) = input_channels.next() {
+            self.channel_feedback_vals.push(0.0);
         }
 
         true
