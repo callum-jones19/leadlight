@@ -2,6 +2,9 @@ use core::f32;
 
 use nih_plug::{buffer::Buffer, plugin::ProcessStatus};
 
+const CHANNEL_INCORRECT_LEN_ERR: &'static str =
+    "Channel feedback values were not properly initialised for Lowpass";
+
 /// An infinite impulse response (IIR) lowpass filter. This filter operates in
 /// the time domain, using a recursive, moving-average algorithm to calculate
 /// each sample value. Doing this levels out higher frequencies, and affects
@@ -29,7 +32,7 @@ pub fn process_lowpass(
     // Take the power of the value to make its effect scale a bit more
     // aggressively. It should never go above 1 or 0, but clamp guarantees
     // this in case something goes wrong with input handling, etc.
-    let iir_amount: f64 = cast_lowpass.powi(3).clamp(0.0, 1.0);
+    let iir_amount: f64 = cast_lowpass.powi(2).clamp(0.0, 1.0);
 
     for channel_samples in buffer.iter_samples() {
         for (channel_index, current_sample) in channel_samples.into_iter().enumerate() {
@@ -45,9 +48,7 @@ pub fn process_lowpass(
             let channel_feedback = match channel_feedback_values.get_mut(channel_index) {
                 Some(channel_feedback) => channel_feedback,
                 None => {
-                    return ProcessStatus::Error(
-                        "Channel feedback values were not properly initialised for Lowpass",
-                    );
+                    return ProcessStatus::Error(CHANNEL_INCORRECT_LEN_ERR);
                 }
             };
 
@@ -66,12 +67,78 @@ pub fn process_lowpass(
 
 #[cfg(test)]
 mod tests {
+    use nih_plug::plugin::ProcessStatus;
+    use plugin_utils::create_two_channel_buffer;
+
+    use crate::process::{CHANNEL_INCORRECT_LEN_ERR, process_lowpass};
+
     #[test]
-    /// Create a two-channel buffer filled with 512 samples of value 5.0.
-    /// Test that this buffer has been validly created. Then apply the
-    /// processing algorithm to the buffer and verify that every sample in
-    /// the modified buffer is 0.0.
-    fn mute_buffer_512_long() {
-        todo!()
+    /// Initialise a buffer with 512 samples of value 10.0
+    /// Applying the lowpass processing function with a `lowpass_value > 1` should
+    /// clamp the `lowpass_value` to 1 and cause it to not affect the input buffer
+    fn lowpass_excessive_amount() {
+        let sample_init_val = 10.0;
+
+        let mut real_buffers = vec![vec![sample_init_val; 512]; 2];
+        let mut buffer = create_two_channel_buffer(&mut real_buffers).unwrap();
+        let mut channel_feedback_values: Vec<f64> = vec![0.0, 0.0];
+
+        let proc_status = process_lowpass(&mut buffer, 2.0, &mut channel_feedback_values);
+
+        assert_eq!(proc_status, ProcessStatus::Normal);
+        for channel_samples in buffer.iter_samples() {
+            for sample in channel_samples {
+                assert_eq!(*sample, 10.0);
+            }
+        }
+    }
+
+    /// Initialise a buffer with 512 samples of value 10.0
+    /// Applying the lowpass processing function with a `lowpass_value < 0` should
+    /// clamp the `lowpass_value` to 0 and cause it to convert all samples to 0
+    #[test]
+    fn lowpass_underflow_amount() {
+        let sample_init_val = 10.0;
+
+        let mut real_buffers = vec![vec![sample_init_val; 512]; 2];
+        let mut buffer = create_two_channel_buffer(&mut real_buffers).unwrap();
+        let mut channel_feedback_values: Vec<f64> = vec![0.0, 0.0];
+
+        let proc_status = process_lowpass(&mut buffer, -1.0, &mut channel_feedback_values);
+
+        assert_eq!(proc_status, ProcessStatus::Normal);
+        for channel_samples in buffer.iter_samples() {
+            for sample in channel_samples {
+                assert_eq!(*sample, 0.0);
+            }
+        }
+    }
+
+    // #[test]
+    // fn lowpass_amount_1() {
+    //     todo!()
+    // }
+
+    // #[test]
+    // fn lowpass_amount_0() {
+    //     todo!()
+    // }
+
+    // #[test]
+    // fn lowpass_amount_half() {
+    //     todo!()
+    // }
+
+    #[test]
+    fn lowpass_incorrect_channel_feedback_vec_size() {
+        let sample_init_val = 10.0;
+
+        let mut real_buffers = vec![vec![sample_init_val; 512]; 2];
+        let mut buffer = create_two_channel_buffer(&mut real_buffers).unwrap();
+        let mut channel_feedback_values: Vec<f64> = vec![0.0];
+
+        let proc_status = process_lowpass(&mut buffer, 0.0, &mut channel_feedback_values);
+
+        assert_eq!(proc_status, ProcessStatus::Error(CHANNEL_INCORRECT_LEN_ERR));
     }
 }
