@@ -7,6 +7,7 @@ edition = "2024"
 criterion = { version = "0.5", features = ["html_reports"] }
 plugin-utils = { path = "../plugin-utils" }
 plugin-mute = { path = "../plugin-mute" }
+plugin-lowpass = { path = "../plugin-lowpass" }
 
 [[bench]]
 name = "plugin_benchmarks"

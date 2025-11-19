@@ -209,6 +209,7 @@ name = "benches"
 version = "0.1.0"
 dependencies = [
  "criterion",
+ "plugin-lowpass",
  "plugin-mute",
  "plugin-utils",
 ]
