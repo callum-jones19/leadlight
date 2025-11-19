@@ -157,32 +157,6 @@ mod tests {
         }
     }
 
-    /// Check that when the lowpass_amount is set to 0.5, the output correctly
-    /// gets replaced by the IIR moving average at expected, pre-calculated
-    /// values
-    // #[test]
-    // fn lowpass_amount_half() {
-    //     let mut real_buffers = vec![
-    //         vec![
-    //             0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0
-    //         ];
-    //         2
-    //     ];
-    //     let mut buffer = create_two_channel_buffer(&mut real_buffers).unwrap();
-
-    //     let mut channel_feedback_values: Vec<f64> = vec![0.0, 0.0];
-
-    //     let proc_status = process_lowpass(&mut buffer, 0.5, &mut channel_feedback_values);
-
-    //     let expected_output: Vec<f32> = vec![0.0,0.5,1.25,2.125,3.0625,4.03125,4.015625,3.5078125,2.75390625,1.876953125,0.9384765625];
-    //     assert_eq!(proc_status, ProcessStatus::Normal);
-    //     for channel_samples in buffer.iter_samples() {
-    //         for (i, sample) in channel_samples.into_iter().enumerate() {
-    //             assert_eq!(*sample, expected_output[i]);
-    //         }
-    //     }
-    // }
-
     /// Test that the plugin correctly returns `ProcessStatus::Error` if the
     /// channel feedback values list is incorrectly sized.
     #[test]
