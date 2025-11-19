@@ -32,7 +32,7 @@ pub fn process_lowpass(
     // Take the power of the value to make its effect scale a bit more
     // aggressively. It should never go above 1 or 0, but clamp guarantees
     // this in case something goes wrong with input handling, etc.
-    let iir_amount: f64 = cast_lowpass.powi(2).clamp(0.0, 1.0);
+    let iir_amount: f64 = cast_lowpass.clamp(0.0, 1.0).powi(2);
 
     for channel_samples in buffer.iter_samples() {
         for (channel_index, current_sample) in channel_samples.into_iter().enumerate() {
@@ -114,21 +114,77 @@ mod tests {
         }
     }
 
-    // #[test]
-    // fn lowpass_amount_1() {
-    //     todo!()
-    // }
+    /// Initialise a buffer with samples set to 10.0, and length 1000
+    /// Test that when the `lowpass_amount` is set to 1.0, the lowpass does not
+    /// affect the output.
+    #[test]
+    fn lowpass_amount_1() {
+        let sample_init_val = 10.0;
 
-    // #[test]
-    // fn lowpass_amount_0() {
-    //     todo!()
-    // }
+        let mut real_buffers = vec![vec![sample_init_val; 512]; 2];
+        let mut buffer = create_two_channel_buffer(&mut real_buffers).unwrap();
 
+        let mut channel_feedback_values: Vec<f64> = vec![0.0, 0.0];
+
+        let proc_status = process_lowpass(&mut buffer, 1.0, &mut channel_feedback_values);
+
+        assert_eq!(proc_status, ProcessStatus::Normal);
+        for channel_samples in buffer.iter_samples() {
+            for sample in channel_samples {
+                assert_eq!(*sample, 10.0);
+            }
+        }
+    }
+
+    /// Check that when the `lowpass_amount` is set to 0, the output is silent
+    /// (nothing should make it past the filter threshold).
+    #[test]
+    fn lowpass_amount_0() {
+        let sample_init_val = 10.0;
+
+        let mut real_buffers = vec![vec![sample_init_val; 512]; 2];
+        let mut buffer = create_two_channel_buffer(&mut real_buffers).unwrap();
+
+        let mut channel_feedback_values: Vec<f64> = vec![0.0, 0.0];
+
+        let proc_status = process_lowpass(&mut buffer, 0.0, &mut channel_feedback_values);
+
+        assert_eq!(proc_status, ProcessStatus::Normal);
+        for channel_samples in buffer.iter_samples() {
+            for sample in channel_samples {
+                assert_eq!(*sample, 0.0);
+            }
+        }
+    }
+
+    /// Check that when the lowpass_amount is set to 0.5, the output correctly
+    /// gets replaced by the IIR moving average at expected, pre-calculated
+    /// values
     // #[test]
     // fn lowpass_amount_half() {
-    //     todo!()
+    //     let mut real_buffers = vec![
+    //         vec![
+    //             0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.0
+    //         ];
+    //         2
+    //     ];
+    //     let mut buffer = create_two_channel_buffer(&mut real_buffers).unwrap();
+
+    //     let mut channel_feedback_values: Vec<f64> = vec![0.0, 0.0];
+
+    //     let proc_status = process_lowpass(&mut buffer, 0.5, &mut channel_feedback_values);
+
+    //     let expected_output: Vec<f32> = vec![0.0,0.5,1.25,2.125,3.0625,4.03125,4.015625,3.5078125,2.75390625,1.876953125,0.9384765625];
+    //     assert_eq!(proc_status, ProcessStatus::Normal);
+    //     for channel_samples in buffer.iter_samples() {
+    //         for (i, sample) in channel_samples.into_iter().enumerate() {
+    //             assert_eq!(*sample, expected_output[i]);
+    //         }
+    //     }
     // }
 
+    /// Test that the plugin correctly returns `ProcessStatus::Error` if the
+    /// channel feedback values list is incorrectly sized.
     #[test]
     fn lowpass_incorrect_channel_feedback_vec_size() {
         let sample_init_val = 10.0;
