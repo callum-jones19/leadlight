@@ -28,6 +28,7 @@ ill provide a brief outline of them:
   This is currently mainly used when certain `unsafe` functionality must be
   exposed, and is minimised through proper wrapper functions.
 - `plugin-mute` is the Mute VST3 plugin.
+- `plugin-lowpass` is the Lowpass VST3 plugin.
 
 ## Getting Started
 
