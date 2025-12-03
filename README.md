@@ -1,8 +1,8 @@
-# Thesis VST
+# Leadlight
 
 ## Summary
 
-The centralised repository for all Rust DSP effects created for my thesis.
+A suite of DSP VST/CLAP plugins written in Rust.
 
 All major effects seen in this repository are based off the Airwindows suite
 of processing plugins (which will be credited in all relevant plugins).
